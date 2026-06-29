@@ -10,17 +10,26 @@ export function buildLocalBusinessSchema() {
     url: SITE_URL,
     description:
       'The original Kapampangan bakery. Freshly baked Creamcheese Ensaymadness, ube sapin-sapin, and pillow-soft breads — genuine and authentic, with 20 branches across Luzon.',
+    telephone: '09451502869',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'EDSA Shangri-La @ 2',
-      addressLocality: 'Mandaluyong',
-      addressRegion: 'Metro Manila',
+      streetAddress: 'Don Juan Nepomuceno Ave., Nepo Center',
+      addressLocality: 'Angeles City',
+      addressRegion: 'Pampanga',
       addressCountry: 'PH',
     },
+    openingHours: 'Mo-Su 07:00-21:00',
     servesCuisine: ['Filipino', 'Kapampangan'],
-    priceRange: '₱',
+    priceRange: '₱₱',
     sameAs: [BRAND.facebook, BRAND.instagram],
-    openingHoursSpecification: [],
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
+        opens: '07:00',
+        closes: '21:00',
+      },
+    ],
   };
 }
 
@@ -29,7 +38,10 @@ export function buildWebSiteSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: BRAND.name,
+    alternateName: ['Hola Bakery', 'Hola Cafe', 'Cafe Hola Pampanga'],
     url: SITE_URL,
+    description:
+      'The original Kapampangan bakery. Freshly baked Creamcheese Ensaymadness, cheese bread, and pillow-soft bread — born in Angeles City, Pampanga, with 20 branches across Luzon.',
   };
 }
 

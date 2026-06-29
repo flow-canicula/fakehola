@@ -7,9 +7,9 @@ import { buildMetadata } from '@/lib/seo';
 import { buildBreadcrumbSchema } from '@/lib/jsonld';
 
 export const metadata = buildMetadata({
-  title: 'Order',
+  title: 'Order Ensaymada & Bread Online | Cafe Hola Kapampangan Bakery',
   description:
-    'Send an order inquiry to Cafe Hola. Fill out the form or message us directly on Facebook or Instagram.',
+    'Order freshly baked ensaymada, cheese bread, and more from Cafe Hola — the original Kapampangan bakery. Message us on Facebook or Instagram, or send an inquiry here.',
   path: '/order/',
 });
 

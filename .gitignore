@@ -1,33 +1,23 @@
-# dependencies
-node_modules/
-.pnpm-store/
+# deps
+/node_modules
+/.pnp
+.pnp.js
 
-# Next.js
-.next/
-out/
+# next
+/.next/
+/out/
 
-# env — never commit real values
-.env.local
-.env.*.local
+# env
+.env*.local
 
-# system
+# misc
 .DS_Store
-Thumbs.db
+*.pem
+/coverage
+/.nyc_output
 
-# IDE
-.vscode/settings.json
-.idea/
-
-# Claude Code
+# claude code
 .claude/
-CLAUDE.md
+.agents/
+*.impeccable
 
-# pnpm
-.pnpmfile.cjs
-
-# TypeScript incremental build info
-tsconfig.tsbuildinfo
-
-# Vitest coverage output
-coverage/
-*.lcov

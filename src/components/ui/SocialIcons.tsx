@@ -14,6 +14,19 @@ export function FacebookIcon({ size = 20 }: { size?: number }) {
   );
 }
 
+export function FoodpandaIcon({ size = 20 }: { size?: number }) {
+  return (
+    <img
+      src="/assets/logo/foodpanda-icon.png"
+      alt=""
+      width={size}
+      height={size}
+      aria-hidden="true"
+      style={{ flexShrink: 0 }}
+    />
+  );
+}
+
 export function InstagramIcon({ size = 20 }: { size?: number }) {
   return (
     <svg

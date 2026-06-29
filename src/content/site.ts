@@ -7,14 +7,18 @@ export const BRAND = {
   taglineTranslation: 'With Hola, it\'s delicious!',
   origin: 'Pampanga, Philippines',
   location: '20 branches across Luzon',
-  flagship: 'Don Juan Nepomuceno Ave., Angeles City, Pampanga',
+  flagship: 'Don Juan Nepomuceno Ave., Nepo Center, Angeles City, Pampanga',
+  phone: '0945 150 2869',
+  hours: 'Open daily, 7:00 AM – 9:00 PM',
   facebook: 'https://www.facebook.com/TheCafeHola',
   instagram: 'https://www.instagram.com/cafe_hola2020/',
+  foodpanda: 'https://www.foodpanda.ph/restaurant/bspe/hola-waltermart',
   facebookHandle: 'TheCafeHola',
   instagramHandle: 'cafe_hola2020',
 } as const;
 
 export const NAV_LINKS = [
+  { label: 'Home', href: '/' },
   { label: 'Menu', href: '/menu/' },
   { label: 'Branches', href: '/branches/' },
   { label: 'Order', href: '/order/' },

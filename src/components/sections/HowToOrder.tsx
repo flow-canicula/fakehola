@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { BRAND } from '@/content/site';
+import { FoodpandaIcon } from '@/components/ui/SocialIcons';
 
 const STEPS = [
   {
@@ -99,37 +100,55 @@ export function HowToOrder() {
         </ol>
 
         {/* Social links */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href={BRAND.facebook}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-7 py-3.5 font-semibold"
-            style={{
-              backgroundColor: 'var(--color-brand)',
-              color: 'var(--color-text-on-brand)',
-              borderRadius: 'var(--radius-sm)',
-              minHeight: '48px',
-              fontSize: 'var(--text-md)',
-            }}
-          >
-            Order on Facebook
-          </a>
-          <a
-            href={BRAND.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-7 py-3.5 font-semibold border-2"
-            style={{
-              borderColor: 'var(--color-border-strong)',
-              color: 'var(--color-text-primary)',
-              borderRadius: 'var(--radius-sm)',
-              minHeight: '48px',
-              fontSize: 'var(--text-md)',
-            }}
-          >
-            Order on Instagram
-          </a>
+        <div className="mt-12 flex flex-col items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
+            <a
+              href={BRAND.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold whitespace-nowrap w-full sm:w-auto"
+              style={{
+                backgroundColor: 'var(--color-brand)',
+                color: 'var(--color-text-on-brand)',
+                borderRadius: 'var(--radius-sm)',
+                minHeight: '48px',
+                fontSize: 'var(--text-md)',
+              }}
+            >
+              Order on Facebook
+            </a>
+            <a
+              href={BRAND.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold border-2 whitespace-nowrap w-full sm:w-auto"
+              style={{
+                borderColor: 'var(--color-border-strong)',
+                color: 'var(--color-text-primary)',
+                borderRadius: 'var(--radius-sm)',
+                minHeight: '48px',
+                fontSize: 'var(--text-md)',
+              }}
+            >
+              Order on Instagram
+            </a>
+            <a
+              href={BRAND.foodpanda}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold whitespace-nowrap w-full sm:w-auto"
+              style={{
+                backgroundColor: '#D70F64',
+                color: '#fff',
+                borderRadius: 'var(--radius-sm)',
+                minHeight: '48px',
+                fontSize: 'var(--text-md)',
+              }}
+            >
+              <FoodpandaIcon size={20} />
+              Order on Foodpanda
+            </a>
+          </div>
           <Link
             href="/order/"
             className="inline-flex items-center justify-center px-7 py-3.5 font-semibold"

@@ -1,4 +1,4 @@
-import { FacebookIcon, InstagramIcon } from '@/components/ui/SocialIcons';
+import { FacebookIcon, InstagramIcon, FoodpandaIcon } from '@/components/ui/SocialIcons';
 import { BRAND } from '@/content/site';
 
 export function CtaBanner() {
@@ -30,24 +30,42 @@ export function CtaBanner() {
           with freshly baked details.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+        <div className="flex flex-col items-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
+            <a
+              href={BRAND.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hola-btn-primary hola-btn-lg w-full sm:w-auto justify-center whitespace-nowrap"
+            >
+              <FacebookIcon size={20} />
+              Message on Facebook
+            </a>
+            <a
+              href={BRAND.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hola-btn-ghost-light hola-btn-lg w-full sm:w-auto justify-center whitespace-nowrap"
+            >
+              <InstagramIcon size={20} />
+              Message on Instagram
+            </a>
+          </div>
           <a
-            href={BRAND.facebook}
+            href={BRAND.foodpanda}
             target="_blank"
             rel="noopener noreferrer"
-            className="hola-btn-primary hola-btn-lg w-full sm:w-auto justify-center"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3 font-semibold whitespace-nowrap"
+            style={{
+              backgroundColor: '#D70F64',
+              color: '#fff',
+              borderRadius: 'var(--radius-sm)',
+              minHeight: '48px',
+              fontSize: 'var(--text-md)',
+            }}
           >
-            <FacebookIcon size={20} />
-            Message us on Facebook
-          </a>
-          <a
-            href={BRAND.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hola-btn-ghost-light hola-btn-lg w-full sm:w-auto justify-center"
-          >
-            <InstagramIcon size={20} />
-            Message us on Instagram
+            <FoodpandaIcon size={20} />
+            Order on Foodpanda
           </a>
         </div>
       </div>

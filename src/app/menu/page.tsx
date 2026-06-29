@@ -7,9 +7,9 @@ import { buildMetadata } from '@/lib/seo';
 import { buildBreadcrumbSchema, buildProductListSchema } from '@/lib/jsonld';
 
 export const metadata = buildMetadata({
-  title: 'Menu',
+  title: 'Menu — Ensaymada, Cheese Bread & Coffee | Cafe Hola Kapampangan Bakery',
   description:
-    'Browse the full Cafe Hola menu — ensaymada, ube sapin-sapin, pillow-soft bread, and Hola Coffee. Order via Facebook or Instagram.',
+    'Full menu of Cafe Hola — the original Kapampangan bakery. Creamcheese Ensaymadness, cheese bread bites, cheese rolls, pillow-soft bread, Hola Coffee, and more. Order via Facebook or Instagram.',
   path: '/menu/',
 });
 

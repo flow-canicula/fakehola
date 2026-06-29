@@ -6,8 +6,8 @@ import { buildMetadata } from '@/lib/seo';
 import { buildBreadcrumbSchema } from '@/lib/jsonld';
 
 export const metadata = buildMetadata({
-  title: 'Branches',
-  description: `Find a Hola near you — ${BRANCH_COUNT} branches across Luzon. Pampanga, Metro Manila, Bulacan, Rizal, Batangas, Bataan, Tarlac, Nueva Ecija, and Olongapo.`,
+  title: 'Branches — Hola Bakery Locations Across Luzon | Cafe Hola',
+  description: `Find a Cafe Hola bakery near you — ${BRANCH_COUNT} branches across Luzon. Angeles City Pampanga, Metro Manila, Bulacan, Rizal, Batangas, Bataan, Tarlac, Nueva Ecija, and Olongapo.`,
   path: '/branches/',
 });
 

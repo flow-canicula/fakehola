@@ -48,16 +48,17 @@ export function Hero() {
                 letterSpacing: '-0.02em',
               }}
             >
-              Be captivated{' '}
+              The original{' '}
               <span
                 style={{
-                  fontFamily: 'var(--font-display)',
+                  fontFamily: 'var(--font-pacifico), cursive',
                   color: 'var(--color-brand)',
                   fontWeight: 400,
                 }}
               >
-                by Hola
-              </span>
+                Hola
+              </span>{' '}
+              Kapampangan Bakery
             </h1>
 
             <p
@@ -68,8 +69,8 @@ export function Hero() {
                 lineHeight: 1.65,
               }}
             >
-              An original bakery born in Pampanga, now bringing soft ensaymada,
-              pillow-soft bread, and Kapampangan kakanin to Filipinos everywhere.
+              Freshly baked Creamcheese Ensaymadness, cheese bread bites, and
+              pillow-soft bread — born in Pampanga, loved across the Philippines.
             </p>
 
             {/* CTAs */}
