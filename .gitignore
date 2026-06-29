@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+
+# env — never commit real values
+.env.local
+.env.*.local
+
+# system
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Claude Code
+.claude/
+CLAUDE.md
+
+# pnpm
+.pnpmfile.cjs
+
+# TypeScript incremental build info
+tsconfig.tsbuildinfo
+
+# Vitest coverage output
+coverage/
+*.lcov
