@@ -101,7 +101,7 @@ copy must match it.
 | Contact / order intake | **Formspree** (client `fetch`) | One endpoint. See §8. |
 | Fonts | **Self-hosted** via `next/font/local` | No runtime calls to Google Fonts (CSP + privacy). |
 | i18n | **None.** Filipino/English only. | No `next-intl`, no `[locale]` segment. Routes are flat. |
-| Analytics | Optional, privacy-first (Plausible) | Off by default; if added, update CSP. |
+| Analytics | **Vercel Analytics** (`@vercel/analytics`) | Same-origin via `/_vercel/insights/*`; no CSP change needed. See `SECURITY.md`. |
 | Package manager | **pnpm** | Lockfile is `pnpm-lock.yaml`. |
 | Node | **20 LTS or 22** | Match `.nvmrc`. |
 

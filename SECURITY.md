@@ -27,6 +27,11 @@ frame-ancestors 'none';
 
 If Plausible analytics is enabled, add `https://plausible.io` to `script-src` and `connect-src`.
 
+Vercel Analytics (`@vercel/analytics`) is enabled. It loads and reports via
+same-origin `/_vercel/insights/*` routes (rewritten by the Vercel edge), so it
+is already covered by `script-src 'self'` and `connect-src 'self'` — no CSP
+change needed.
+
 ## Pre-launch checklist
 
 - [ ] HTTPS enforced — test redirect from http://
