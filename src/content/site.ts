@@ -20,9 +20,10 @@ export const BRAND = {
 export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Menu', href: '/menu/' },
+  { label: 'About', href: '/about/' },
   { label: 'Branches', href: '/branches/' },
   { label: 'Order', href: '/order/' },
-  { label: 'About', href: '/about/' },
+  { label: 'Franchising', href: '/franchising/' },
 ] as const;
 
 export const OG_DEFAULTS = {

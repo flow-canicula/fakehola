@@ -190,6 +190,8 @@ Images: since optimization is off, **pre-process food photography at author time
 │   │   ├── menu/page.tsx     <- Full product menu
 │   │   ├── order/page.tsx    <- Order inquiry form + "How to order" explainer
 │   │   ├── order/thanks/page.tsx
+│   │   ├── franchising/page.tsx        <- Franchising pitch + inquiry form
+│   │   ├── franchising/thanks/page.tsx
 │   │   ├── about/page.tsx    <- Brand story, Pampanga roots
 │   │   ├── not-found.tsx     <- designed 404
 │   │   ├── sitemap.ts        <- pick ONE: this OR public/sitemap.xml
@@ -198,7 +200,8 @@ Images: since optimization is off, **pre-process food photography at author time
 │   │   ├── layout/           <- Header, Footer, Nav, MobileMenu (client)
 │   │   ├── sections/         <- Hero, ProductGrid, PromoStrip, HowToOrder, CtaBanner
 │   │   ├── product/          <- ProductCard, FlavourTag, ProductModal (client)
-│   │   ├── forms/            <- OrderInquiryForm, Honeypot
+│   │   ├── forms/            <- OrderInquiryForm, FranchiseInquiryForm, Honeypot
+│   │   ├── ui/                <- Select, MultiSelectQuantity (custom accessible listboxes)
 │   │   └── seo/              <- JsonLd (typed), Breadcrumbs
 │   ├── content/
 │   │   ├── products.ts       <- product data (name, desc, tags, image path, in-stock)
@@ -215,6 +218,10 @@ Images: since optimization is off, **pre-process food photography at author time
 
 If you add a route, add it to: the nav (where appropriate), `sitemap`, and
 breadcrumb structured data.
+
+Nav order is defined once, in `content/site.ts -> NAV_LINKS`, and consumed in
+that order by `Header`, `MobileMenu`, and `Footer`. Current order: Home, Menu,
+About, Branches, Order, Franchising. Change it in one place only.
 
 `content/products.ts` is the **single source of truth** for all product data.
 If on-page copy diverges from this file, fix the copy — not the other way around.
@@ -332,13 +339,13 @@ AA contrast on all text, reduced motion respected, semantic landmarks
 
 ## 8. Order inquiry form (Formspree endpoint)
 
-One lightweight pre-order / inquiry form for customers who want to submit a
-request before messaging on social. This is **not** a cart or checkout — it
+Two lightweight Formspree forms exist. Neither is a cart or checkout — each
 collects basic intent and routes to the operator.
 
 | Form | File | Endpoint env var | For |
 |---|---|---|---|
 | **Order Inquiry** | `forms/OrderInquiryForm.tsx` | `NEXT_PUBLIC_FORMSPREE_ORDER_ID` | Customers, bulk/event orders, pre-order requests |
+| **Franchise Inquiry** | `forms/FranchiseInquiryForm.tsx` | `NEXT_PUBLIC_FORMSPREE_FRANCHISE_ID` | Prospective franchise partners (`/franchising/`) |
 
 Rules:
 
@@ -356,8 +363,17 @@ Rules:
   message links alongside or above it. The social channels are the primary
   ordering path.
 
-Suggested fields: name, mobile number, product interest (select), quantity,
-preferred date/day, message.
+Order form fields: name, mobile number, product interest (multi-select with a
+per-product quantity field, `ui/MultiSelectQuantity.tsx`), nearest branch
+(select, sourced from `content/branches.ts`), delivery address (free text,
+optional — pickup customers can leave it blank), preferred date/day, message.
+
+Franchise form suggested fields: name, mobile number, email, target city/area,
+investment budget (select), message. **`FACTS-ONLY` applies here too**:
+investment amounts, fees, royalty terms, and ROI figures are not published
+on-page unless confirmed by the operator — the page funnels prospects to an
+inquiry/DM, and terms are confirmed directly, not advertised as numbers on
+the site.
 
 ---
 
@@ -448,6 +464,7 @@ Treat as a release gate:
 # .env.local (never committed) and the host's build env
 NEXT_PUBLIC_SITE_URL=https://holabakery.skaldris.com
 NEXT_PUBLIC_FORMSPREE_ORDER_ID=xxxxxxxx
+NEXT_PUBLIC_FORMSPREE_FRANCHISE_ID=xxxxxxxx
 # NEXT_PUBLIC_PLAUSIBLE_DOMAIN=holabakery.skaldris.com  # only if analytics enabled
 ```
 

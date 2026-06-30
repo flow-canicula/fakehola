@@ -5,22 +5,17 @@ import { useRouter } from 'next/navigation';
 import { submitToFormspree, type FormspreeStatus } from '@/lib/formspree';
 import { Honeypot } from './Honeypot';
 import { Select, type SelectOption } from '@/components/ui/Select';
-import { MultiSelectQuantity, type MultiSelectQuantityItem } from '@/components/ui/MultiSelectQuantity';
 import { BRAND } from '@/content/site';
-import { PRODUCTS } from '@/content/products';
-import { REGIONS } from '@/content/branches';
 
-const FORM_ID = process.env['NEXT_PUBLIC_FORMSPREE_ORDER_ID'] ?? '';
+const FORM_ID = process.env['NEXT_PUBLIC_FORMSPREE_FRANCHISE_ID'] ?? '';
 
-const PRODUCT_OPTIONS = PRODUCTS.map((p) => ({ value: p.name, label: p.name }));
-
-const BRANCH_OPTIONS: SelectOption[] = REGIONS.flatMap((region) =>
-  region.branches.map((branch) => ({
-    value: branch.name,
-    label: branch.name,
-    group: region.name,
-  }))
-);
+const BUDGET_OPTIONS: SelectOption[] = [
+  { value: 'Under ₱1M', label: 'Under ₱1M' },
+  { value: '₱1M – ₱3M', label: '₱1M – ₱3M' },
+  { value: '₱3M – ₱5M', label: '₱3M – ₱5M' },
+  { value: 'Above ₱5M', label: 'Above ₱5M' },
+  { value: 'Not sure yet', label: 'Not sure yet' },
+];
 
 function FieldError({ id, message }: { id: string; message: string }) {
   return (
@@ -46,9 +41,7 @@ const baseInput: React.CSSProperties = {
   fontSize: 'var(--text-md)',
   color: 'var(--color-text-primary)',
   backgroundColor: 'var(--color-surface-base)',
-  borderWidth: '1.5px',
-  borderStyle: 'solid',
-  borderColor: 'var(--color-border-subtle)',
+  border: '1.5px solid var(--color-border-subtle)',
   borderRadius: 'var(--radius-sm)',
   fontFamily: 'var(--font-body)',
   minHeight: '52px',
@@ -61,7 +54,7 @@ const errorBorder: React.CSSProperties = {
   borderColor: 'var(--color-error)',
 };
 
-export function OrderInquiryForm() {
+export function FranchiseInquiryForm() {
   const uid = useId();
   const router = useRouter();
 
@@ -73,21 +66,15 @@ export function OrderInquiryForm() {
   const [values, setValues] = useState({
     name: '',
     mobile: '',
-    branch: '',
-    address: '',
-    preferredDate: '',
+    email: '',
+    location: '',
+    budget: '',
     message: '',
   });
-  const [products, setProducts] = useState<MultiSelectQuantityItem[]>([]);
 
   function set(field: keyof typeof values, value: string) {
     setValues((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: '' }));
-  }
-
-  function setProductItems(items: MultiSelectQuantityItem[]) {
-    setProducts(items);
-    setErrors((prev) => ({ ...prev, product: '' }));
   }
 
   function validate() {
@@ -97,10 +84,11 @@ export function OrderInquiryForm() {
       next['mobile'] = 'Enter a mobile number we can reach you on.';
     else if (!/^[0-9+\-\s()]{7,20}$/.test(values.mobile))
       next['mobile'] = 'Enter a valid mobile number (e.g. 09171234567).';
-    if (products.length === 0)
-      next['product'] = "Select at least one product you're interested in.";
-    if (!values.branch)
-      next['branch'] = 'Select the branch nearest you.';
+    if (!values.email.trim()) next['email'] = 'Enter an email address.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email))
+      next['email'] = 'Enter a valid email address.';
+    if (!values.location.trim())
+      next['location'] = 'Enter your target city or area.';
     return next;
   }
 
@@ -117,7 +105,7 @@ export function OrderInquiryForm() {
 
     if (!FORM_ID) {
       setGlobalError(
-        'Order form is not configured yet. Message us directly on Facebook or Instagram.'
+        'Franchise inquiry form is not configured yet. Message us directly on Facebook or Instagram.'
       );
       return;
     }
@@ -125,22 +113,18 @@ export function OrderInquiryForm() {
     setStatus('loading');
     setGlobalError('');
 
-    const productSummary = products
-      .map((item) => `${item.value} (x${item.quantity || '1'})`)
-      .join(', ');
-
     const result = await submitToFormspree(FORM_ID, {
       Name: values.name,
       Mobile: values.mobile,
-      'Product Interest': productSummary,
-      'Nearest Branch': values.branch,
-      'Delivery Address': values.address,
-      'Preferred Date': values.preferredDate,
+      Email: values.email,
+      'Target Location': values.location,
+      'Investment Budget': values.budget,
       Message: values.message,
+      Subject: 'New franchise inquiry',
     });
 
     if (result.ok) {
-      router.push('/order/thanks/');
+      router.push('/franchising/thanks/');
     } else {
       setStatus('error');
       setGlobalError(
@@ -163,10 +147,9 @@ export function OrderInquiryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate aria-label="Order inquiry form">
+    <form onSubmit={handleSubmit} noValidate aria-label="Franchise inquiry form">
       <Honeypot />
 
-      {/* Global error */}
       <div aria-live="polite" aria-atomic="true">
         {globalError && (
           <div
@@ -241,48 +224,90 @@ export function OrderInquiryForm() {
             {errors['name'] && <FieldError id={`${uid}-name-error`} message={errors['name']} />}
           </div>
 
-          {/* Mobile */}
-          <div>
-            <label
-              htmlFor={`${uid}-mobile`}
-              style={{
-                display: 'block',
-                marginBottom: 'var(--spacing-2)',
-                fontWeight: 500,
-                fontSize: 'var(--text-sm)',
-                color: 'var(--color-text-primary)',
-              }}
-            >
-              Mobile / WhatsApp{' '}
-              <span aria-hidden="true" style={{ color: 'var(--color-error)', marginLeft: 1 }}>*</span>
-            </label>
-            <input
-              id={`${uid}-mobile`}
-              name="mobile"
-              type="tel"
-              autoComplete="tel"
-              maxLength={20}
-              required
-              inputMode="tel"
-              placeholder="09171234567"
-              value={values.mobile}
-              onChange={(e) => set('mobile', e.target.value)}
-              onFocus={() => setFocusedField('mobile')}
-              onBlur={() => setFocusedField(null)}
-              aria-describedby={errors['mobile'] ? `${uid}-mobile-error` : undefined}
-              aria-invalid={!!errors['mobile']}
-              disabled={isLoading}
-              style={inputStyle('mobile')}
-            />
-            {errors['mobile'] && <FieldError id={`${uid}-mobile-error`} message={errors['mobile']} />}
+          {/* Mobile + Email */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: 'var(--spacing-5)',
+            }}
+          >
+            <div>
+              <label
+                htmlFor={`${uid}-mobile`}
+                style={{
+                  display: 'block',
+                  marginBottom: 'var(--spacing-2)',
+                  fontWeight: 500,
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--color-text-primary)',
+                }}
+              >
+                Mobile / WhatsApp{' '}
+                <span aria-hidden="true" style={{ color: 'var(--color-error)', marginLeft: 1 }}>*</span>
+              </label>
+              <input
+                id={`${uid}-mobile`}
+                name="mobile"
+                type="tel"
+                autoComplete="tel"
+                maxLength={20}
+                required
+                inputMode="tel"
+                placeholder="09171234567"
+                value={values.mobile}
+                onChange={(e) => set('mobile', e.target.value)}
+                onFocus={() => setFocusedField('mobile')}
+                onBlur={() => setFocusedField(null)}
+                aria-describedby={errors['mobile'] ? `${uid}-mobile-error` : undefined}
+                aria-invalid={!!errors['mobile']}
+                disabled={isLoading}
+                style={inputStyle('mobile')}
+              />
+              {errors['mobile'] && <FieldError id={`${uid}-mobile-error`} message={errors['mobile']} />}
+            </div>
+
+            <div>
+              <label
+                htmlFor={`${uid}-email`}
+                style={{
+                  display: 'block',
+                  marginBottom: 'var(--spacing-2)',
+                  fontWeight: 500,
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--color-text-primary)',
+                }}
+              >
+                Email{' '}
+                <span aria-hidden="true" style={{ color: 'var(--color-error)', marginLeft: 1 }}>*</span>
+              </label>
+              <input
+                id={`${uid}-email`}
+                name="email"
+                type="email"
+                autoComplete="email"
+                maxLength={150}
+                required
+                placeholder="you@email.com"
+                value={values.email}
+                onChange={(e) => set('email', e.target.value)}
+                onFocus={() => setFocusedField('email')}
+                onBlur={() => setFocusedField(null)}
+                aria-describedby={errors['email'] ? `${uid}-email-error` : undefined}
+                aria-invalid={!!errors['email']}
+                disabled={isLoading}
+                style={inputStyle('email')}
+              />
+              {errors['email'] && <FieldError id={`${uid}-email-error`} message={errors['email']} />}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Your order ───────────────────────────────────────── */}
-      <section aria-labelledby={`${uid}-order-heading`} style={{ marginBottom: 'var(--spacing-8)' }}>
+      {/* ── Your plans ───────────────────────────────────────── */}
+      <section aria-labelledby={`${uid}-plans-heading`} style={{ marginBottom: 'var(--spacing-8)' }}>
         <h2
-          id={`${uid}-order-heading`}
+          id={`${uid}-plans-heading`}
           style={{
             fontSize: 'var(--text-xs)',
             fontWeight: 600,
@@ -294,14 +319,14 @@ export function OrderInquiryForm() {
             borderBottom: '1px solid var(--color-border-subtle)',
           }}
         >
-          Your order
+          Your plans
         </h2>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-5)' }}>
-          {/* Products (multi-select, with per-product quantity) */}
+          {/* Target location */}
           <div>
             <label
-              htmlFor={`${uid}-product`}
+              htmlFor={`${uid}-location`}
               style={{
                 display: 'block',
                 marginBottom: 'var(--spacing-2)',
@@ -310,78 +335,32 @@ export function OrderInquiryForm() {
                 color: 'var(--color-text-primary)',
               }}
             >
-              What would you like?{' '}
+              Target city or area{' '}
               <span aria-hidden="true" style={{ color: 'var(--color-error)', marginLeft: 1 }}>*</span>
             </label>
-            <MultiSelectQuantity
-              id={`${uid}-product`}
-              options={PRODUCT_OPTIONS}
-              items={products}
-              onChange={setProductItems}
-              placeholder="Select one or more products"
-              disabled={isLoading}
-              aria-describedby={errors['product'] ? `${uid}-product-error` : undefined}
-              hasError={!!errors['product']}
-              onFocus={() => setFocusedField('product')}
-              onBlur={() => setFocusedField(null)}
-            />
-            {errors['product'] && <FieldError id={`${uid}-product-error`} message={errors['product']} />}
-          </div>
-
-          {/* Preferred date */}
-          <div>
-            <label
-              htmlFor={`${uid}-preferredDate`}
-              style={{
-                display: 'block',
-                marginBottom: 'var(--spacing-2)',
-                fontWeight: 500,
-                fontSize: 'var(--text-sm)',
-                color: 'var(--color-text-primary)',
-              }}
-            >
-              Preferred date or day
-            </label>
             <input
-              id={`${uid}-preferredDate`}
-              name="preferredDate"
+              id={`${uid}-location`}
+              name="location"
               type="text"
-              maxLength={100}
-              placeholder="e.g. This Saturday, Dec 25"
-              value={values.preferredDate}
-              onChange={(e) => set('preferredDate', e.target.value)}
-              onFocus={() => setFocusedField('preferredDate')}
+              maxLength={150}
+              required
+              placeholder="e.g. Cebu City, Davao, Baguio"
+              value={values.location}
+              onChange={(e) => set('location', e.target.value)}
+              onFocus={() => setFocusedField('location')}
               onBlur={() => setFocusedField(null)}
+              aria-describedby={errors['location'] ? `${uid}-location-error` : undefined}
+              aria-invalid={!!errors['location']}
               disabled={isLoading}
-              style={inputStyle('preferredDate')}
+              style={inputStyle('location')}
             />
+            {errors['location'] && <FieldError id={`${uid}-location-error`} message={errors['location']} />}
           </div>
-        </div>
-      </section>
 
-      {/* ── Where ────────────────────────────────────────────── */}
-      <section aria-labelledby={`${uid}-where-heading`} style={{ marginBottom: 'var(--spacing-8)' }}>
-        <h2
-          id={`${uid}-where-heading`}
-          style={{
-            fontSize: 'var(--text-xs)',
-            fontWeight: 600,
-            color: 'var(--color-text-secondary)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            marginBottom: 'var(--spacing-5)',
-            paddingBottom: 'var(--spacing-3)',
-            borderBottom: '1px solid var(--color-border-subtle)',
-          }}
-        >
-          Where
-        </h2>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-5)' }}>
-          {/* Nearest branch */}
+          {/* Budget */}
           <div>
             <label
-              htmlFor={`${uid}-branch`}
+              htmlFor={`${uid}-budget`}
               style={{
                 display: 'block',
                 marginBottom: 'var(--spacing-2)',
@@ -390,54 +369,18 @@ export function OrderInquiryForm() {
                 color: 'var(--color-text-primary)',
               }}
             >
-              Nearest branch{' '}
-              <span aria-hidden="true" style={{ color: 'var(--color-error)', marginLeft: 1 }}>*</span>
+              Investment budget
             </label>
             <Select
-              id={`${uid}-branch`}
-              name="branch"
-              required
-              options={BRANCH_OPTIONS}
-              value={values.branch}
-              onChange={(v) => set('branch', v)}
-              placeholder="Select a branch"
+              id={`${uid}-budget`}
+              name="budget"
+              options={BUDGET_OPTIONS}
+              value={values.budget}
+              onChange={(v) => set('budget', v)}
+              placeholder="Select a range"
               disabled={isLoading}
-              aria-describedby={errors['branch'] ? `${uid}-branch-error` : undefined}
-              aria-invalid={!!errors['branch']}
-              hasError={!!errors['branch']}
-              onFocus={() => setFocusedField('branch')}
+              onFocus={() => setFocusedField('budget')}
               onBlur={() => setFocusedField(null)}
-            />
-            {errors['branch'] && <FieldError id={`${uid}-branch-error`} message={errors['branch']} />}
-          </div>
-
-          {/* Delivery address */}
-          <div>
-            <label
-              htmlFor={`${uid}-address`}
-              style={{
-                display: 'block',
-                marginBottom: 'var(--spacing-2)',
-                fontWeight: 500,
-                fontSize: 'var(--text-sm)',
-                color: 'var(--color-text-primary)',
-              }}
-            >
-              Delivery address or area
-            </label>
-            <input
-              id={`${uid}-address`}
-              name="address"
-              type="text"
-              autoComplete="street-address"
-              maxLength={200}
-              placeholder="e.g. Brgy. San Jose, Antipolo, Rizal — or leave blank for pickup"
-              value={values.address}
-              onChange={(e) => set('address', e.target.value)}
-              onFocus={() => setFocusedField('address')}
-              onBlur={() => setFocusedField(null)}
-              disabled={isLoading}
-              style={inputStyle('address')}
             />
           </div>
         </div>
@@ -458,7 +401,7 @@ export function OrderInquiryForm() {
             borderBottom: '1px solid var(--color-border-subtle)',
           }}
         >
-          Anything else?
+          Tell us more
         </h2>
 
         <div>
@@ -472,14 +415,14 @@ export function OrderInquiryForm() {
               color: 'var(--color-text-primary)',
             }}
           >
-            Notes
+            Message
           </label>
           <textarea
             id={`${uid}-message`}
             name="message"
             rows={5}
             maxLength={1000}
-            placeholder="Delivery area, special requests, pickup preference, bulk order details…"
+            placeholder="Your background, timeline, or any questions about franchising with Hola…"
             value={values.message}
             onChange={(e) => set('message', e.target.value)}
             onFocus={() => setFocusedField('message')}
@@ -504,7 +447,7 @@ export function OrderInquiryForm() {
           className="hola-btn-primary"
           style={{
             alignSelf: 'flex-start',
-            minWidth: '200px',
+            minWidth: '240px',
             opacity: isLoading ? 0.75 : 1,
             cursor: isLoading ? 'not-allowed' : 'pointer',
           }}
@@ -518,12 +461,12 @@ export function OrderInquiryForm() {
               Sending…
             </>
           ) : (
-            'Send my order details'
+            'Send franchise inquiry'
           )}
         </button>
 
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-          Prefer to order directly?{' '}
+          Prefer to talk first?{' '}
           <a
             href={BRAND.facebook}
             target="_blank"

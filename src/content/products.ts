@@ -106,7 +106,7 @@ export const PRODUCTS: Product[] = [
     priceNote: 'Box of 20 pcs',
     tags: ['bestseller', 'bread', 'cheese', 'gifting'],
     category: 'Cheese Bread Bites',
-    image: '/assets/photos/fp_26528379_assorted-cheese-bites.jpg',
+    image: '/assets/photos/hola-cheese-bread-bites.jpg',
     imageAlt: 'Hola Milky Cheese Bread Bites — bite-sized golden bread bites in an open yellow Hola box with the Basta Hola Manyaman tagline',
     inStock: true,
   },
