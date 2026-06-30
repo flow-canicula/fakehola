@@ -7,7 +7,7 @@ const STEPS = [
     number: '01',
     title: 'Browse the menu',
     description:
-      "Check out our breads and treats on this page or the full menu. See what's fresh and what you'd love to try.",
+      "Check out our breads and treats on this page or the menu — always rising, always something new. See what's fresh and what you'd love to try.",
   },
   {
     number: '02',
@@ -25,7 +25,7 @@ const STEPS = [
     number: '04',
     title: 'Delivery or pickup',
     description:
-      'Receive your order at home or pick it up from EDSA Shangri-La @ 2 — whatever works best for you.',
+      'Receive your order at home or pick it up from the Hola branch nearest you — whatever works best for you.',
   },
 ] as const;
 

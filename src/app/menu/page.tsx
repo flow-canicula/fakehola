@@ -45,7 +45,7 @@ export default function MenuPage() {
               letterSpacing: '-0.02em',
             }}
           >
-            Our full menu
+            Our menu, always rising
           </h1>
           <p
             className="mt-3 max-w-xl"

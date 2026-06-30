@@ -113,8 +113,8 @@ export function Hero() {
             style={{ aspectRatio: '4/3' }}
           >
             <Image
-              src="/assets/photos/546456029_1372782538185264_458962016792196231_n.jpg"
-              alt="Hola Ensaymadness in a branded yellow box — pillowy ensaymada rolls piled with grated cheese and a cream drizzle"
+              src="/assets/photos/hola-homepage-banner.jpg"
+              alt="Hola Ensaymadness in a branded yellow box with the Hola logo sticker — pillowy cheese-topped rolls and the Basta Hola Manyaman tagline"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"

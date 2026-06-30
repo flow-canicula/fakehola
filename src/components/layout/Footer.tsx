@@ -52,18 +52,6 @@ export function Footer() {
               Pages
             </p>
             <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/"
-                  className="text-sm transition-colors"
-                  style={{
-                    color: 'rgba(255,255,255,0.8)',
-                    transitionDuration: 'var(--duration-instant)',
-                  }}
-                >
-                  Home
-                </Link>
-              </li>
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link

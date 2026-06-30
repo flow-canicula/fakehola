@@ -63,8 +63,8 @@ export default function AboutPage() {
               style={{ aspectRatio: '4/3', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}
             >
               <Image
-                src="/assets/photos/544964377_1368126458650872_1136813160580203494_n.jpg"
-                alt="The Hola circle mark mounted on the signature yellow wall inside a Cafe Hola branch"
+                src="/assets/logo/349594746_1694568097629810_5399586794046856493_n.jpg"
+                alt="The Hola circle mark, the bakery's signature sunrise yellow logo"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
