@@ -123,7 +123,16 @@ export function Footer() {
           <p>
             &copy; {year} {BRAND.name}. All rights reserved.
           </p>
-          <p>{BRAND.origin}</p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/privacy/"
+              className="transition-colors hover:underline"
+              style={{ color: 'rgba(255,255,255,0.5)', transitionDuration: 'var(--duration-instant)' }}
+            >
+              Privacy Policy
+            </Link>
+            <p>{BRAND.origin}</p>
+          </div>
         </div>
       </div>
     </footer>

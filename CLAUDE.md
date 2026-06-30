@@ -193,6 +193,7 @@ Images: since optimization is off, **pre-process food photography at author time
 │   │   ├── franchising/page.tsx        <- Franchising pitch + inquiry form
 │   │   ├── franchising/thanks/page.tsx
 │   │   ├── about/page.tsx    <- Brand story, Pampanga roots
+│   │   ├── privacy/page.tsx  <- Privacy policy
 │   │   ├── not-found.tsx     <- designed 404
 │   │   ├── sitemap.ts        <- pick ONE: this OR public/sitemap.xml
 │   │   └── robots.ts         <- pick ONE: this OR public/robots.txt

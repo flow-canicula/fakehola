@@ -21,4 +21,5 @@
 .claude/
 .agents/
 *.impeccable
+.impeccable/
 
